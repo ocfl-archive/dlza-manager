@@ -39,7 +39,7 @@ message IncomingOrder {
   string FilePath = 3;
   string FileName = 4;
   string InfoFilePath = 5;
-  Object Object = 6;
+  ObjectAndFiles ObjectAndFiles = 6;
 }
 
 message Collection {
@@ -144,9 +144,10 @@ message ObjectAndFiles {
   repeated File Files = 3;
 }
 
-message InstanceAndPartition {
+message InstanceWithPartitionAndObjectWithFiles {
   ObjectInstance ObjectInstance = 1;
-  StoragePartition storagePartition = 2;
+  StoragePartition StoragePartition = 2;
+  ObjectAndFiles ObjectAndFiles = 3;
 }
 
 message StorageLocations {
