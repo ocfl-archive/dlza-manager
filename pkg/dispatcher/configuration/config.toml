@@ -1,3 +1,0 @@
-PortHandler = ":8083"
-PortIngest = ":8082"
-CycleLength = 10
