@@ -1,6 +1,6 @@
 syntax="proto3";
 
-option go_package = "gitlab.switch.ch/ub-unibas/dlza/dlza-manager/dlzamanagerproto";
+option go_package = "github.com/ocfl-archive/dlza-manager/dlzamanagerproto";
 option java_package = "ch.unibas.ub.dlzamanagerproto.db";
 option java_outer_classname = "DlzaManagerProto";
 option java_multiple_files = true;
