@@ -121,6 +121,9 @@ message Object {
   int64 TotalFileSize = 18;
   int32 TotalFileCount = 19;
   string Collection = 20;
+  string Holding = 21;
+  repeated string Authors = 22;
+  string Expiration = 23;
 }
 
 message Objects {
