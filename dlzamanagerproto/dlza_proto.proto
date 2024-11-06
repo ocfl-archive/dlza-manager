@@ -68,6 +68,7 @@ message Collections {
 
 message CollectionAlias {
   string CollectionAlias = 1;
+  repeated Id Ids = 2;
 }
 
 message CollectionAliases {
