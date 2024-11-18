@@ -1,7 +1,5 @@
 package models
 
-import "database/sql"
-
 type Collection struct {
 	Id          string `json:"id"`
 	Alias       string `json:"alias"`
@@ -12,7 +10,7 @@ type Collection struct {
 	Quality     int    `json:"quality"`
 	TenantId    string `json:"tenantId"`
 	//virtual columns
-	TotalFileSize    sql.NullInt64 `json:"totalFileSize"`
-	TotalFileCount   sql.NullInt32 `json:"totalFileCount"`
-	TotalObjectCount sql.NullInt32 `json:"totalObjectCount"`
+	TotalFileSize    int64 `json:"totalFileSize"`
+	TotalFileCount   int64 `json:"totalFileCount"`
+	TotalObjectCount int64 `json:"totalObjectCount"`
 }

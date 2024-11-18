@@ -4,7 +4,7 @@ go 1.22.3
 
 require (
 	github.com/je4/filesystem/v2 v2.0.15
-	google.golang.org/protobuf v1.35.1
+	google.golang.org/protobuf v1.35.2
 )
 
 require (

@@ -1,8 +1,6 @@
 package models
 
-import "database/sql"
-
 type Pronom struct {
-	Id        sql.NullString
-	FileCount int
+	Id        string
+	FileCount int64
 }

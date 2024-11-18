@@ -20,7 +20,7 @@ type Connection struct {
 type StorageLocation struct {
 	Alias              string
 	Type               string
-	Vault              sql.NullString
+	Vault              string
 	Connection         string
 	Quality            int
 	Price              int
@@ -31,8 +31,8 @@ type StorageLocation struct {
 	Id                 string
 	NumberOfThreads    int
 	// virtual values
-	TotalFilesSize      sql.NullInt64
-	TotalExistingVolume sql.NullInt64
+	TotalFilesSize      int64
+	TotalExistingVolume int64
 }
 
 type StorageLocationJson struct {

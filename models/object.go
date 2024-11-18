@@ -22,7 +22,9 @@ type Object struct {
 	Holding           string   `json:"holding"`
 	Authors           []string `json:"authors"`
 	Expiration        string   `json:"expiration"`
+	Head              string   `json:"head"`
+	Versions          string   `json:"versions"`
 	//virtual columns
 	TotalFileSize  int64 `json:"totalFileSize"`
-	TotalFileCount int32 `json:"totalFileCount"`
+	TotalFileCount int64 `json:"totalFileCount"`
 }

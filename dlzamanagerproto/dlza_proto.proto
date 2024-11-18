@@ -57,8 +57,8 @@ message Collection {
   string TenantId = 7;
   string Id = 8;
   int64 TotalFileSize = 9;
-  int32 TotalFileCount = 10;
-  int32 TotalObjectCount = 11;
+  int64 TotalFileCount = 10;
+  int64 TotalObjectCount = 11;
 }
 
 message Collections {
@@ -120,7 +120,7 @@ message Object {
   string Checksum = 16;
   string Id = 17;
   int64 TotalFileSize = 18;
-  int32 TotalFileCount = 19;
+  int64 TotalFileCount = 19;
   string Collection = 20;
   string Holding = 21;
   repeated string Authors = 22;
@@ -235,7 +235,7 @@ message ObjectInstanceChecks {
 
 message MimeType {
   string Id = 1;
-  int32  FileCount = 2;
+  int64  FileCount = 2;
 }
 
 message MimeTypes {
@@ -245,7 +245,7 @@ message MimeTypes {
 
 message Pronom {
   string Id = 1;
-  int32  FileCount = 2;
+  int64  FileCount = 2;
 }
 
 message Pronoms {

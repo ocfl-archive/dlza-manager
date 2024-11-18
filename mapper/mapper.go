@@ -12,7 +12,7 @@ func ConvertToTenant(tenantPb *pb.Tenant) models.Tenant {
 	tenant.Person = tenantPb.Person
 	tenant.Email = tenantPb.Email
 	tenant.Name = tenantPb.Name
-	tenant.ApiKeyId.String = tenantPb.ApiKeyId
+	tenant.ApiKeyId = tenantPb.ApiKeyId
 	return tenant
 }
 
@@ -23,7 +23,7 @@ func ConvertToTenantPb(tenant models.Tenant) *pb.Tenant {
 	tenantPb.Person = tenant.Person
 	tenantPb.Alias = tenant.Alias
 	tenantPb.Email = tenant.Email
-	tenantPb.ApiKeyId = tenant.ApiKeyId.String
+	tenantPb.ApiKeyId = tenant.ApiKeyId
 	return tenantPb
 }
 
@@ -37,9 +37,9 @@ func ConvertToCollection(collectionPb *pb.Collection) models.Collection {
 	collection.OwnerMail = collectionPb.OwnerMail
 	collection.Quality = int(collectionPb.Quality)
 	collection.TenantId = collectionPb.TenantId
-	collection.TotalObjectCount.Int32 = collectionPb.TotalObjectCount
-	collection.TotalFileCount.Int32 = collectionPb.TotalFileCount
-	collection.TotalFileSize.Int64 = collectionPb.TotalFileSize
+	collection.TotalObjectCount = collectionPb.TotalObjectCount
+	collection.TotalFileCount = collectionPb.TotalFileCount
+	collection.TotalFileSize = collectionPb.TotalFileSize
 	return collection
 }
 
@@ -53,9 +53,9 @@ func ConvertToCollectionPb(collection models.Collection) *pb.Collection {
 	collectionPb.Quality = int32(collection.Quality)
 	collectionPb.TenantId = collection.TenantId
 	collectionPb.Id = collection.Id
-	collectionPb.TotalObjectCount = collection.TotalObjectCount.Int32
-	collectionPb.TotalFileCount = collection.TotalFileCount.Int32
-	collectionPb.TotalFileSize = collection.TotalFileSize.Int64
+	collectionPb.TotalObjectCount = collection.TotalObjectCount
+	collectionPb.TotalFileCount = collection.TotalFileCount
+	collectionPb.TotalFileSize = collection.TotalFileSize
 	return collectionPb
 }
 
@@ -64,7 +64,7 @@ func ConvertToStorageLocation(storageLocationPb *pb.StorageLocation) models.Stor
 	storageLocation.Id = storageLocationPb.Id
 	storageLocation.Alias = storageLocationPb.Alias
 	storageLocation.Type = storageLocationPb.Type
-	storageLocation.Vault.String = storageLocationPb.Vault
+	storageLocation.Vault = storageLocationPb.Vault
 	storageLocation.Connection = storageLocationPb.Connection
 	storageLocation.Quality = int(storageLocationPb.Quality)
 	storageLocation.Price = int(storageLocationPb.Price)
@@ -73,8 +73,8 @@ func ConvertToStorageLocation(storageLocationPb *pb.StorageLocation) models.Stor
 	storageLocation.OcflType = storageLocationPb.OcflType
 	storageLocation.NumberOfThreads = int(storageLocationPb.NumberOfThreads)
 	storageLocation.TenantId = storageLocationPb.TenantId
-	storageLocation.TotalFilesSize.Int64 = storageLocationPb.TotalFilesSize
-	storageLocation.TotalExistingVolume.Int64 = storageLocationPb.TotalExistingVolume
+	storageLocation.TotalFilesSize = storageLocationPb.TotalFilesSize
+	storageLocation.TotalExistingVolume = storageLocationPb.TotalExistingVolume
 	return storageLocation
 }
 
@@ -83,7 +83,7 @@ func ConvertToStorageLocationPb(storageLocation models.StorageLocation) *pb.Stor
 	storageLocationPb.Id = storageLocation.Id
 	storageLocationPb.Alias = storageLocation.Alias
 	storageLocationPb.Type = storageLocation.Type
-	storageLocationPb.Vault = storageLocation.Vault.String
+	storageLocationPb.Vault = storageLocation.Vault
 	storageLocationPb.Connection = storageLocation.Connection
 	storageLocationPb.Quality = int32(storageLocation.Quality)
 	storageLocationPb.Price = int32(storageLocation.Price)
@@ -92,8 +92,8 @@ func ConvertToStorageLocationPb(storageLocation models.StorageLocation) *pb.Stor
 	storageLocationPb.OcflType = storageLocation.OcflType
 	storageLocationPb.NumberOfThreads = int32(storageLocation.NumberOfThreads)
 	storageLocationPb.TenantId = storageLocation.TenantId
-	storageLocationPb.TotalFilesSize = storageLocation.TotalFilesSize.Int64
-	storageLocationPb.TotalExistingVolume = storageLocation.TotalExistingVolume.Int64
+	storageLocationPb.TotalFilesSize = storageLocation.TotalFilesSize
+	storageLocationPb.TotalExistingVolume = storageLocation.TotalExistingVolume
 	return storageLocationPb
 }
 
@@ -180,9 +180,9 @@ func ConvertToStoragePartition(storagePartitionPb *pb.StoragePartition) models.S
 	var storagePartition models.StoragePartition
 	storagePartition.Alias = storagePartitionPb.Alias
 	storagePartition.Name = storagePartitionPb.Name
-	storagePartition.MaxSize = int(storagePartitionPb.MaxSize)
+	storagePartition.MaxSize = storagePartitionPb.MaxSize
 	storagePartition.MaxObjects = int(storagePartitionPb.MaxObjects)
-	storagePartition.CurrentSize = int(storagePartitionPb.CurrentSize)
+	storagePartition.CurrentSize = storagePartitionPb.CurrentSize
 	storagePartition.CurrentObjects = int(storagePartitionPb.CurrentObjects)
 	storagePartition.Id = storagePartitionPb.Id
 	storagePartition.StorageLocationId = storagePartitionPb.StorageLocationId
@@ -210,9 +210,9 @@ func ConvertToFile(filePb *pb.File) models.File {
 	file.Size = int(filePb.Size)
 	file.MimeType = filePb.MimeType
 	file.Pronom = filePb.Pronom
-	file.Width.Int64 = filePb.Width
-	file.Height.Int64 = filePb.Height
-	file.Duration.Int64 = filePb.Duration
+	file.Width = filePb.Width
+	file.Height = filePb.Height
+	file.Duration = filePb.Duration
 	file.Id = filePb.Id
 	file.ObjectId = filePb.ObjectId
 	return file
@@ -225,9 +225,9 @@ func ConvertToFilePb(file models.File) *pb.File {
 	filePb.Size = int64(file.Size)
 	filePb.MimeType = file.MimeType
 	filePb.Pronom = file.Pronom
-	filePb.Width = file.Width.Int64
-	filePb.Height = file.Height.Int64
-	filePb.Duration = file.Duration.Int64
+	filePb.Width = file.Width
+	filePb.Height = file.Height
+	filePb.Duration = file.Duration
 	filePb.Id = file.Id
 	filePb.ObjectId = file.ObjectId
 	return filePb
