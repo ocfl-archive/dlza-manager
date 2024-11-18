@@ -125,6 +125,8 @@ message Object {
   string Holding = 21;
   repeated string Authors = 22;
   string Expiration = 23;
+  string Head = 24;
+  string Versions = 25;
 }
 
 message Objects {
