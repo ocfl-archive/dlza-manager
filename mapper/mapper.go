@@ -119,6 +119,8 @@ func ConvertToObject(objectPb *pb.Object) models.Object {
 	object.Expiration = objectPb.Expiration
 	object.Authors = objectPb.Authors
 	object.Holding = objectPb.Holding
+	object.Versions = objectPb.Versions
+	object.Head = objectPb.Head
 	object.TotalFileCount = objectPb.TotalFileCount
 	object.TotalFileSize = objectPb.TotalFileSize
 	return object
@@ -146,6 +148,8 @@ func ConvertToObjectPb(object models.Object) *pb.Object {
 	objectPb.Holding = object.Holding
 	objectPb.CollectionId = object.CollectionId
 	objectPb.Checksum = object.Checksum
+	objectPb.Versions = object.Versions
+	objectPb.Head = object.Head
 	objectPb.TotalFileCount = object.TotalFileCount
 	objectPb.TotalFileSize = object.TotalFileSize
 	return objectPb
