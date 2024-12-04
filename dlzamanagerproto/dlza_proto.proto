@@ -162,6 +162,7 @@ message InstanceWithPartitionAndObjectWithFile {
   StoragePartition StoragePartition = 2;
   Object  Object = 3;
   File File = 4;
+  string  CollectionAlias = 5;
 }
 
 message ObjectAndFiles {
