@@ -149,6 +149,15 @@ message ObjectInstances {
   int32 TotalItems = 2;
 }
 
+message ObjectAndFile {
+  string  CollectionAlias = 1;
+  string StatusId =2;
+  string FilePath = 3;
+  string FileName = 4;
+  Object  Object = 5;
+  File File = 6;
+}
+
 message ObjectAndFiles {
   string  CollectionAlias = 1;
   Object  Object = 2;
