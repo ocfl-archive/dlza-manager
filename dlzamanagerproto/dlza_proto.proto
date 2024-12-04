@@ -157,6 +157,12 @@ message ObjectAndFile {
   Object  Object = 5;
   File File = 6;
 }
+message InstanceWithPartitionAndObjectWithFile {
+  ObjectInstance ObjectInstance = 1;
+  StoragePartition StoragePartition = 2;
+  Object  Object = 3;
+  File File = 4;
+}
 
 message ObjectAndFiles {
   string  CollectionAlias = 1;
