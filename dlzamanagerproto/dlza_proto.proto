@@ -199,6 +199,11 @@ message StorageLocation {
   int64   totalFilesSize = 14;
 }
 
+message CopyFromTo {
+  ObjectInstance ObjectInstance = 1;
+  StorageLocation LocationCopyTo = 2;
+}
+
 message StoragePartition {
   string  alias = 1;
   string  name = 2;
