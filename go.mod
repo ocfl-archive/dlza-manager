@@ -1,6 +1,6 @@
 module github.com/ocfl-archive/dlza-manager
 
-go 1.23.0
+go 1.23.5
 
 require (
 	github.com/je4/filesystem/v3 v3.0.22
