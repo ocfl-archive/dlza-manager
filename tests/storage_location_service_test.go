@@ -4,27 +4,26 @@ import (
 	pb "github.com/ocfl-archive/dlza-manager/dlzamanagerproto"
 	"testing"
 
-	"github.com/ocfl-archive/dlza-manager/models"
 	"github.com/ocfl-archive/dlza-manager/service"
 )
 
 func TestGetCheapestStorageLocationsForQuality(t *testing.T) {
 	minQuality := 66
-	storageLocation1 := models.StorageLocation{Quality: 34, Price: 99}
-	storageLocation2 := models.StorageLocation{Quality: 22, Price: 67}
-	storageLocation3 := models.StorageLocation{Quality: 10, Price: 40}
-	storageLocation4 := models.StorageLocation{Quality: 27, Price: 56}
-	storageLocation5 := models.StorageLocation{Quality: 68, Price: 200}
+	storageLocation1 := &pb.StorageLocation{Quality: 34, Price: 99}
+	storageLocation2 := &pb.StorageLocation{Quality: 22, Price: 67}
+	storageLocation3 := &pb.StorageLocation{Quality: 10, Price: 40}
+	storageLocation4 := &pb.StorageLocation{Quality: 27, Price: 56}
+	storageLocation5 := &pb.StorageLocation{Quality: 68, Price: 200}
 
-	storageLocations := make([]models.StorageLocation, 0)
+	storageLocations := make([]*pb.StorageLocation, 0)
 	storageLocations = append(storageLocations, storageLocation1, storageLocation2, storageLocation3,
 		storageLocation4, storageLocation5)
 
-	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(storageLocations, minQuality)
+	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(&pb.StorageLocations{StorageLocations: storageLocations}, minQuality)
 
 	qualitySum := 0
 	for _, storageLocation := range storageLocationsFiltered {
-		qualitySum += storageLocation.Quality
+		qualitySum += int(storageLocation.Quality)
 	}
 
 	if len(storageLocationsFiltered) != 3 || qualitySum < minQuality {
@@ -34,17 +33,16 @@ func TestGetCheapestStorageLocationsForQuality(t *testing.T) {
 
 func TestGetCheapestStorageLocationsForQuality2(t *testing.T) {
 	minQuality := 1000
-	storageLocation1 := models.StorageLocation{Quality: 34, Price: 99}
-	storageLocation2 := models.StorageLocation{Quality: 22, Price: 67}
-	storageLocation3 := models.StorageLocation{Quality: 10, Price: 40}
-	storageLocation4 := models.StorageLocation{Quality: 27, Price: 56}
-	storageLocation5 := models.StorageLocation{Quality: 68, Price: 200}
-
-	storageLocations := make([]models.StorageLocation, 0)
+	storageLocation1 := &pb.StorageLocation{Quality: 34, Price: 99}
+	storageLocation2 := &pb.StorageLocation{Quality: 22, Price: 67}
+	storageLocation3 := &pb.StorageLocation{Quality: 10, Price: 40}
+	storageLocation4 := &pb.StorageLocation{Quality: 27, Price: 56}
+	storageLocation5 := &pb.StorageLocation{Quality: 68, Price: 200}
+	storageLocations := make([]*pb.StorageLocation, 0)
 	storageLocations = append(storageLocations, storageLocation1, storageLocation2, storageLocation3,
 		storageLocation4, storageLocation5)
 
-	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(storageLocations, minQuality)
+	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(&pb.StorageLocations{StorageLocations: storageLocations}, minQuality)
 
 	if len(storageLocationsFiltered) != 0 {
 		panic("TestGetCheapestStorageLocationsForQuality2 failed")

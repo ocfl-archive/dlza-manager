@@ -2,7 +2,6 @@ package service
 
 import (
 	"github.com/ocfl-archive/dlza-manager/dlzamanagerproto"
-	"github.com/ocfl-archive/dlza-manager/models"
 	"math"
 	"slices"
 )
@@ -12,12 +11,12 @@ type minCostWithIndices struct {
 	Indices []int
 }
 
-func GetCheapestStorageLocationsForQuality(storageLocations []models.StorageLocation, minQuality int) []models.StorageLocation {
+func GetCheapestStorageLocationsForQuality(storageLocations *dlzamanagerproto.StorageLocations, minQuality int) []*dlzamanagerproto.StorageLocation {
 
 	maxQuality := 0
 
-	for _, storageLocation := range storageLocations {
-		maxQuality += storageLocation.Quality
+	for _, storageLocation := range storageLocations.StorageLocations {
+		maxQuality += int(storageLocation.Quality)
 	}
 
 	minCosts := make([]minCostWithIndices, maxQuality+1)
@@ -29,17 +28,17 @@ func GetCheapestStorageLocationsForQuality(storageLocations []models.StorageLoca
 		}
 	}
 
-	for i := 0; i < len(storageLocations); i++ {
-		for j := maxQuality; j >= storageLocations[i].Quality; j-- {
+	for i := 0; i < len(storageLocations.StorageLocations); i++ {
+		for j := maxQuality; j >= int(storageLocations.StorageLocations[i].Quality); j-- {
 
-			if minCosts[j-storageLocations[i].Quality].MinCost != math.MaxInt {
+			if minCosts[j-int(storageLocations.StorageLocations[i].Quality)].MinCost != math.MaxInt {
 
-				appendBool := minCosts[j].MinCost > minCosts[j-storageLocations[i].Quality].MinCost+storageLocations[i].Price
-				minCosts[j].MinCost = int(math.Min(float64(minCosts[j].MinCost), float64(minCosts[j-storageLocations[i].Quality].MinCost+storageLocations[i].Price)))
+				appendBool := minCosts[j].MinCost > minCosts[j-int(storageLocations.StorageLocations[i].Quality)].MinCost+int(storageLocations.StorageLocations[i].Price)
+				minCosts[j].MinCost = int(math.Min(float64(minCosts[j].MinCost), float64(minCosts[j-int(storageLocations.StorageLocations[i].Quality)].MinCost+int(storageLocations.StorageLocations[i].Price))))
 
 				if appendBool {
-					minCosts[j].Indices = make([]int, len(minCosts[j-storageLocations[i].Quality].Indices))
-					copy(minCosts[j].Indices, minCosts[j-storageLocations[i].Quality].Indices)
+					minCosts[j].Indices = make([]int, len(minCosts[j-int(storageLocations.StorageLocations[i].Quality)].Indices))
+					copy(minCosts[j].Indices, minCosts[j-int(storageLocations.StorageLocations[i].Quality)].Indices)
 					minCosts[j].Indices = append(minCosts[j].Indices, i)
 				}
 			}
@@ -90,9 +89,9 @@ func GetStorageLocationsToDeleteFrom(relevantStorageLocations *dlzamanagerproto.
 	return storageLocationsToDeleteFrom
 }
 
-func getStorageLocationsByIndices(storageLocations []models.StorageLocation, indices []int) []models.StorageLocation {
-	filteredStorageLocations := make([]models.StorageLocation, 0)
-	for index, storageLocation := range storageLocations {
+func getStorageLocationsByIndices(storageLocations *dlzamanagerproto.StorageLocations, indices []int) []*dlzamanagerproto.StorageLocation {
+	filteredStorageLocations := make([]*dlzamanagerproto.StorageLocation, 0)
+	for index, storageLocation := range storageLocations.StorageLocations {
 		if slices.Contains(indices, index) {
 			filteredStorageLocations = append(filteredStorageLocations, storageLocation)
 		}

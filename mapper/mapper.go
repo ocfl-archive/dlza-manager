@@ -269,3 +269,14 @@ func ConvertToPagination(paginationPb *pb.Pagination) models.Pagination {
 	pagination.AllowedTenants = paginationPb.AllowedTenants
 	return pagination
 }
+
+func ConvertStorageLocationsCombinationsForCollection(object models.CollectionWithExistingStorageLocationsCombinations) *pb.StorageLocationsCombinationsForCollection {
+	var objectPb pb.StorageLocationsCombinationsForCollection
+	objectPb.Id = object.Id
+	objectPb.Alias = object.Alias
+	objectPb.LocationsIds = object.LocationsIds
+	objectPb.Quality = object.Quality
+	objectPb.Price = object.Price
+	objectPb.Size = object.Size
+	return &objectPb
+}

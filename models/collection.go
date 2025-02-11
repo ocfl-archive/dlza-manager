@@ -1,5 +1,14 @@
 package models
 
+type CollectionWithExistingStorageLocationsCombinations struct {
+	Id           string   `json:"id"`
+	Alias        string   `json:"alias"`
+	LocationsIds []string `json:"locationsIds"`
+	Quality      int64    `json:"quality"`
+	Price        int64    `json:"price"`
+	Size         int64    `json:"size"`
+}
+
 type Collection struct {
 	Id          string `json:"id"`
 	Alias       string `json:"alias"`
