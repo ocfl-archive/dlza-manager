@@ -15,6 +15,7 @@ message IdsWithSQLInterval {
   string CollectionId = 1;
   string Interval = 2;
   repeated string Ids = 3;
+  repeated string CollectionsIds = 4;
 }
 
 message StatusObject {
