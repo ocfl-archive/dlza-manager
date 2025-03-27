@@ -279,6 +279,7 @@ message ObjectInstanceChecks {
 message MimeType {
   string Id = 1;
   int64  FileCount = 2;
+  int64 FilesSize = 3;
 }
 
 message MimeTypes {
@@ -289,6 +290,7 @@ message MimeTypes {
 message Pronom {
   string Id = 1;
   int64  FileCount = 2;
+  int64 FilesSize = 3;
 }
 
 message Pronoms {
