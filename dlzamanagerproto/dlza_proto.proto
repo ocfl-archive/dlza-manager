@@ -222,6 +222,7 @@ message StorageLocation {
 message CopyFromTo {
   ObjectInstance ObjectInstance = 1;
   StorageLocation LocationCopyTo = 2;
+  StoragePartition StoragePartition = 3;
 }
 
 message StoragePartition {

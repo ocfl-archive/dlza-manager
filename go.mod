@@ -1,10 +1,10 @@
 module github.com/ocfl-archive/dlza-manager
 
-go 1.23.5
+go 1.24.1
 
 require (
-	github.com/je4/filesystem/v3 v3.0.22
-	google.golang.org/protobuf v1.36.3
+	github.com/je4/filesystem/v3 v3.0.25
+	google.golang.org/protobuf v1.36.6
 )
 
 require (
