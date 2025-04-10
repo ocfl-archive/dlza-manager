@@ -298,3 +298,8 @@ message Pronoms {
   repeated Pronom Pronoms = 1;
   int32 TotalItems = 2;
 }
+
+message AliasAndLocationsName {
+  string Alias = 1;
+  string LocationsName = 2;
+}
