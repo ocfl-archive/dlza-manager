@@ -244,6 +244,7 @@ message StoragePartitions {
 message SizeAndId {
   int64  size = 1;
   string  id = 2;
+  Object Object = 3;
 }
 
 message File {
