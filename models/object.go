@@ -18,6 +18,7 @@ type Object struct {
 	Id                string   `json:"id"`
 	CollectionId      string   `json:"collection_id"`
 	Checksum          string   `json:"checksum"`
+	Binary            bool     `json:"binary"`
 	Collection        string   `json:"collection"`
 	Holding           string   `json:"holding"`
 	Authors           []string `json:"authors"`

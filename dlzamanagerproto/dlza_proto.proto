@@ -147,6 +147,7 @@ message Object {
   string Expiration = 23;
   string Head = 24;
   string Versions = 25;
+  bool Binary = 26;
 }
 
 message Objects {

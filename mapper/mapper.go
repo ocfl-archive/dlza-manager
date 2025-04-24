@@ -123,6 +123,7 @@ func ConvertToObject(objectPb *pb.Object) models.Object {
 	object.Head = objectPb.Head
 	object.TotalFileCount = objectPb.TotalFileCount
 	object.TotalFileSize = objectPb.TotalFileSize
+	object.Binary = objectPb.Binary
 	return object
 }
 
@@ -152,6 +153,7 @@ func ConvertToObjectPb(object models.Object) *pb.Object {
 	objectPb.Head = object.Head
 	objectPb.TotalFileCount = object.TotalFileCount
 	objectPb.TotalFileSize = object.TotalFileSize
+	objectPb.Binary = object.Binary
 	return objectPb
 }
 
