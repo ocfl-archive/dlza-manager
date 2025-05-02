@@ -246,6 +246,7 @@ func ConvertToObjectInstanceCheckPb(objectInstanceCheck models.ObjectInstanceChe
 	objectInstanceCheckPb.Message = objectInstanceCheck.Message
 	objectInstanceCheckPb.Id = objectInstanceCheck.Id
 	objectInstanceCheckPb.ObjectInstanceId = objectInstanceCheck.ObjectInstanceId
+	objectInstanceCheckPb.CheckType = objectInstanceCheck.CheckType
 	return &objectInstanceCheckPb
 }
 
@@ -256,6 +257,7 @@ func ConvertToObjectInstanceCheck(objectInstanceCheckPb *pb.ObjectInstanceCheck)
 	objectInstanceCheck.Message = objectInstanceCheckPb.Message
 	objectInstanceCheck.Id = objectInstanceCheckPb.Id
 	objectInstanceCheck.ObjectInstanceId = objectInstanceCheckPb.ObjectInstanceId
+	objectInstanceCheck.CheckType = objectInstanceCheckPb.CheckType
 	return objectInstanceCheck
 }
 

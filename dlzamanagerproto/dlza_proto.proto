@@ -272,6 +272,7 @@ message ObjectInstanceCheck {
   string Message = 3;
   string Id = 4;
   string ObjectInstanceId = 5;
+  string CheckType = 6;
 }
 
 message ObjectInstanceChecks {

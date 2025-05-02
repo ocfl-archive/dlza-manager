@@ -6,4 +6,5 @@ type ObjectInstanceCheck struct {
 	Message          string
 	Id               string
 	ObjectInstanceId string
+	CheckType        string
 }
