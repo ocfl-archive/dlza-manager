@@ -222,9 +222,8 @@ message StorageLocation {
 }
 
 message CopyFromTo {
-  ObjectInstance ObjectInstance = 1;
-  StorageLocation LocationCopyTo = 2;
-  StoragePartition StoragePartition = 3;
+  string CopyTo = 1;
+  string CopyFrom = 2;
 }
 
 message StoragePartition {
