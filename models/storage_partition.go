@@ -10,3 +10,10 @@ type StoragePartition struct {
 	Id                string
 	StorageLocationId string
 }
+
+type StoragePartitionGroup struct {
+	Alias            string
+	Name             string
+	Id               string
+	PartitionGroupId string
+}
