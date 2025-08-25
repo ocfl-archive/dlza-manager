@@ -49,6 +49,93 @@ func TestGetCheapestStorageLocationsForQuality2(t *testing.T) {
 	}
 }
 
+func TestGetCheapestStorageLocationsForQuality3(t *testing.T) {
+	minQuality := 60
+	storageLocation1 := &pb.StorageLocation{Quality: 30, Price: 99}
+	storageLocation2 := &pb.StorageLocation{Quality: 30, Price: 67}
+	storageLocation3 := &pb.StorageLocation{Quality: 30, Price: 40}
+	storageLocation4 := &pb.StorageLocation{Quality: 30, Price: 56}
+	storageLocation5 := &pb.StorageLocation{Quality: 30, Price: 200}
+
+	storageLocations := make([]*pb.StorageLocation, 0)
+	storageLocations = append(storageLocations, storageLocation1, storageLocation2, storageLocation3,
+		storageLocation4, storageLocation5)
+
+	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(&pb.StorageLocations{StorageLocations: storageLocations}, minQuality)
+
+	qualitySum := 0
+	for _, storageLocation := range storageLocationsFiltered {
+		qualitySum += int(storageLocation.Quality)
+	}
+
+	if len(storageLocationsFiltered) != 2 || qualitySum < minQuality {
+		panic("TestGetCheapestStorageLocationsForQualit3 failed")
+	}
+	for _, storageLocationsFilteredItem := range storageLocationsFiltered {
+		if storageLocationsFilteredItem.Price != 40 && storageLocationsFilteredItem.Quality != 56 {
+			panic("TestGetCheapestStorageLocationsForQuality3 failed")
+		}
+	}
+}
+
+func TestGetCheapestStorageLocationsForQuality4(t *testing.T) {
+	minQuality := 70
+	storageLocation1 := &pb.StorageLocation{Quality: 10, Price: 999}
+	storageLocation2 := &pb.StorageLocation{Quality: 20, Price: 6079}
+	storageLocation3 := &pb.StorageLocation{Quality: 30, Price: 900}
+	storageLocation4 := &pb.StorageLocation{Quality: 35, Price: 1000}
+	storageLocation5 := &pb.StorageLocation{Quality: 40, Price: 1000}
+
+	storageLocations := make([]*pb.StorageLocation, 0)
+	storageLocations = append(storageLocations, storageLocation1, storageLocation2, storageLocation3,
+		storageLocation4, storageLocation5)
+
+	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(&pb.StorageLocations{StorageLocations: storageLocations}, minQuality)
+
+	qualitySum := 0
+	for _, storageLocation := range storageLocationsFiltered {
+		qualitySum += int(storageLocation.Quality)
+	}
+
+	if len(storageLocationsFiltered) != 2 || qualitySum < minQuality {
+		panic("TestGetCheapestStorageLocationsForQualit4 failed")
+	}
+	for _, storageLocationsFilteredItem := range storageLocationsFiltered {
+		if storageLocationsFilteredItem.Price != 900 && storageLocationsFilteredItem.Quality != 1000 {
+			panic("TestGetCheapestStorageLocationsForQuality4 failed")
+		}
+	}
+}
+
+func TestGetCheapestStorageLocationsForQuality5(t *testing.T) {
+	minQuality := 70
+	storageLocation1 := &pb.StorageLocation{Quality: 10, Price: 999}
+	storageLocation2 := &pb.StorageLocation{Quality: 20, Price: 6079}
+	storageLocation3 := &pb.StorageLocation{Quality: 30, Price: 1100}
+	storageLocation4 := &pb.StorageLocation{Quality: 35, Price: 1000}
+	storageLocation5 := &pb.StorageLocation{Quality: 40, Price: 1000}
+
+	storageLocations := make([]*pb.StorageLocation, 0)
+	storageLocations = append(storageLocations, storageLocation1, storageLocation2, storageLocation3,
+		storageLocation4, storageLocation5)
+
+	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(&pb.StorageLocations{StorageLocations: storageLocations}, minQuality)
+
+	qualitySum := 0
+	for _, storageLocation := range storageLocationsFiltered {
+		qualitySum += int(storageLocation.Quality)
+	}
+
+	if len(storageLocationsFiltered) != 2 || qualitySum < minQuality {
+		panic("TestGetCheapestStorageLocationsForQualit5 failed")
+	}
+	for _, storageLocationsFilteredItem := range storageLocationsFiltered {
+		if storageLocationsFilteredItem.Price != 1000 && storageLocationsFilteredItem.Quality != 1000 {
+			panic("TestGetCheapestStorageLocationsForQuality5 failed")
+		}
+	}
+}
+
 func TestGetStorageLocationsToCopyTo(t *testing.T) {
 
 	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Id: "sftp"}, {Type: "Amazon S3", Id: "Amazon S3"}, {Type: "Switch S3", Id: "Switch S3"}, {Type: "local", Id: "local"}}}
