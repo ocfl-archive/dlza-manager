@@ -2,6 +2,7 @@ package models
 
 import (
 	"database/sql"
+
 	"github.com/je4/filesystem/v3/pkg/vfsrw"
 )
 
@@ -30,6 +31,7 @@ type StorageLocation struct {
 	TenantId           string
 	Id                 string
 	NumberOfThreads    int
+	Group              string
 	// virtual values
 	TotalFilesSize      int64
 	TotalExistingVolume int64

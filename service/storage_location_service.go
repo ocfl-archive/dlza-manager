@@ -1,9 +1,10 @@
 package service
 
 import (
-	"github.com/ocfl-archive/dlza-manager/dlzamanagerproto"
 	"math"
 	"slices"
+
+	"github.com/ocfl-archive/dlza-manager/dlzamanagerproto"
 )
 
 type minCostWithIndices struct {
@@ -13,9 +14,24 @@ type minCostWithIndices struct {
 
 func GetCheapestStorageLocationsForQuality(storageLocations *dlzamanagerproto.StorageLocations, minQuality int) []*dlzamanagerproto.StorageLocation {
 
-	maxQuality := 0
+	storageLocationsGroups := dlzamanagerproto.StorageLocations{}
 
 	for _, storageLocation := range storageLocations.StorageLocations {
+		var storageLocationWithSameGroup *dlzamanagerproto.StorageLocation
+		for _, storageLocationU := range storageLocations.StorageLocations {
+			if storageLocation.Group == storageLocationU.Group && storageLocationWithSameGroup == nil {
+				storageLocationWithSameGroup = storageLocationU
+			} else if storageLocation.Alias == storageLocationU.Alias && storageLocationWithSameGroup != nil {
+				storageLocationsGroups.StorageLocations = append(storageLocationsGroups.StorageLocations, storageLocationWithSameGroup)
+				break
+			}
+			storageLocationsGroups.StorageLocations = append(storageLocationsGroups.StorageLocations, storageLocationWithSameGroup)
+		}
+	}
+
+	maxQuality := 0
+
+	for _, storageLocation := range storageLocationsGroups.StorageLocations {
 		maxQuality += int(storageLocation.Quality)
 	}
 
@@ -28,17 +44,17 @@ func GetCheapestStorageLocationsForQuality(storageLocations *dlzamanagerproto.St
 		}
 	}
 
-	for i := 0; i < len(storageLocations.StorageLocations); i++ {
-		for j := maxQuality; j >= int(storageLocations.StorageLocations[i].Quality); j-- {
+	for i := 0; i < len(storageLocationsGroups.StorageLocations); i++ {
+		for j := maxQuality; j >= int(storageLocationsGroups.StorageLocations[i].Quality); j-- {
 
-			if minCosts[j-int(storageLocations.StorageLocations[i].Quality)].MinCost != math.MaxInt {
+			if minCosts[j-int(storageLocationsGroups.StorageLocations[i].Quality)].MinCost != math.MaxInt {
 
-				appendBool := minCosts[j].MinCost > minCosts[j-int(storageLocations.StorageLocations[i].Quality)].MinCost+int(storageLocations.StorageLocations[i].Price)
-				minCosts[j].MinCost = int(math.Min(float64(minCosts[j].MinCost), float64(minCosts[j-int(storageLocations.StorageLocations[i].Quality)].MinCost+int(storageLocations.StorageLocations[i].Price))))
+				appendBool := minCosts[j].MinCost > minCosts[j-int(storageLocationsGroups.StorageLocations[i].Quality)].MinCost+int(storageLocationsGroups.StorageLocations[i].Price)
+				minCosts[j].MinCost = int(math.Min(float64(minCosts[j].MinCost), float64(minCosts[j-int(storageLocationsGroups.StorageLocations[i].Quality)].MinCost+int(storageLocationsGroups.StorageLocations[i].Price))))
 
 				if appendBool {
-					minCosts[j].Indices = make([]int, len(minCosts[j-int(storageLocations.StorageLocations[i].Quality)].Indices))
-					copy(minCosts[j].Indices, minCosts[j-int(storageLocations.StorageLocations[i].Quality)].Indices)
+					minCosts[j].Indices = make([]int, len(minCosts[j-int(storageLocationsGroups.StorageLocations[i].Quality)].Indices))
+					copy(minCosts[j].Indices, minCosts[j-int(storageLocationsGroups.StorageLocations[i].Quality)].Indices)
 					minCosts[j].Indices = append(minCosts[j].Indices, i)
 				}
 			}

@@ -217,8 +217,9 @@ message StorageLocation {
   string  tenant_id = 10;
   string  id = 11;
   int32   number_of_threads = 12;
-  int64   totalExistingVolume = 13;
-  int64   totalFilesSize = 14;
+  string   group = 13;
+  int64   totalExistingVolume = 14;
+  int64   totalFilesSize = 15;
 }
 
 message CopyFromTo {
