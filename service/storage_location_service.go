@@ -14,18 +14,25 @@ type minCostWithIndices struct {
 
 func GetCheapestStorageLocationsForQuality(storageLocations *dlzamanagerproto.StorageLocations, minQuality int) []*dlzamanagerproto.StorageLocation {
 
-	storageLocationsGroups := dlzamanagerproto.StorageLocations{}
-
+	var storageLocationsGroups dlzamanagerproto.StorageLocations
+	var groups []string
 	for _, storageLocation := range storageLocations.StorageLocations {
+		if slices.Contains(groups, storageLocation.Group) {
+			continue
+		}
 		var storageLocationWithSameGroup *dlzamanagerproto.StorageLocation
-		for _, storageLocationU := range storageLocations.StorageLocations {
+		for i, storageLocationU := range storageLocations.StorageLocations {
 			if storageLocation.Group == storageLocationU.Group && storageLocationWithSameGroup == nil {
 				storageLocationWithSameGroup = storageLocationU
-			} else if storageLocation.Alias == storageLocationU.Alias && storageLocationWithSameGroup != nil {
+			} else if storageLocation.Group == storageLocationU.Group && storageLocationWithSameGroup != nil {
 				storageLocationsGroups.StorageLocations = append(storageLocationsGroups.StorageLocations, storageLocationWithSameGroup)
+				groups = append(groups, storageLocation.Group)
 				break
 			}
-			storageLocationsGroups.StorageLocations = append(storageLocationsGroups.StorageLocations, storageLocationWithSameGroup)
+			if i == len(storageLocations.StorageLocations)-1 {
+				storageLocationsGroups.StorageLocations = append(storageLocationsGroups.StorageLocations, storageLocationWithSameGroup)
+				groups = append(groups, storageLocation.Group)
+			}
 		}
 	}
 
@@ -70,7 +77,7 @@ func GetCheapestStorageLocationsForQuality(storageLocations *dlzamanagerproto.St
 			}
 		}
 	}
-	return getStorageLocationsByIndices(storageLocations, indices)
+	return getStorageLocationsByIndices(&storageLocationsGroups, indices)
 }
 
 func GetStorageLocationsToCopyTo(relevantStorageLocations *dlzamanagerproto.StorageLocations, storageLocationsInUse []*dlzamanagerproto.StorageLocation) []*dlzamanagerproto.StorageLocation {
@@ -78,7 +85,7 @@ func GetStorageLocationsToCopyTo(relevantStorageLocations *dlzamanagerproto.Stor
 
 	for _, relevantStorageLocation := range relevantStorageLocations.StorageLocations {
 		for index, currentStorageLocation := range storageLocationsInUse {
-			if relevantStorageLocation.Id == currentStorageLocation.Id {
+			if relevantStorageLocation.Group == currentStorageLocation.Group {
 				break
 			}
 			if index == len(storageLocationsInUse)-1 {
@@ -94,7 +101,7 @@ func GetStorageLocationsToDeleteFrom(relevantStorageLocations *dlzamanagerproto.
 
 	for oiInUse, storageLocationInUse := range storageLocationsInUse {
 		for index, relevantStorageLocation := range relevantStorageLocations.StorageLocations {
-			if storageLocationInUse.Id == relevantStorageLocation.Id {
+			if storageLocationInUse.Group == relevantStorageLocation.Group {
 				break
 			}
 			if index == len(relevantStorageLocations.StorageLocations)-1 {

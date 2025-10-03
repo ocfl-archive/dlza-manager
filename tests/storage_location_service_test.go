@@ -1,8 +1,9 @@
 package tests
 
 import (
-	pb "github.com/ocfl-archive/dlza-manager/dlzamanagerproto"
 	"testing"
+
+	pb "github.com/ocfl-archive/dlza-manager/dlzamanagerproto"
 
 	"github.com/ocfl-archive/dlza-manager/service"
 )
@@ -136,10 +137,57 @@ func TestGetCheapestStorageLocationsForQuality5(t *testing.T) {
 	}
 }
 
+func TestGetCheapestStorageLocationsForQuality6(t *testing.T) {
+	minQuality := 70
+	storageLocation5 := &pb.StorageLocation{Quality: 70, Price: 1000}
+
+	storageLocations := make([]*pb.StorageLocation, 0)
+	storageLocations = append(storageLocations, storageLocation5)
+
+	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(&pb.StorageLocations{StorageLocations: storageLocations}, minQuality)
+
+	qualitySum := 0
+	for _, storageLocation := range storageLocationsFiltered {
+		qualitySum += int(storageLocation.Quality)
+	}
+
+	if len(storageLocationsFiltered) == 0 || qualitySum < minQuality {
+		panic("TestGetCheapestStorageLocationsForQualit6 failed")
+	}
+	for _, storageLocationsFilteredItem := range storageLocationsFiltered {
+		if storageLocationsFilteredItem.Quality != 70 {
+			panic("TestGetCheapestStorageLocationsForQuality6 failed")
+		}
+	}
+}
+
+func TestGetCheapestStorageLocationsForQuality7(t *testing.T) {
+	minQuality := 70
+	storageLocation1 := &pb.StorageLocation{Quality: 10, Price: 999, Group: "group1"}
+	storageLocation2 := &pb.StorageLocation{Quality: 30, Price: 6079, Group: "group2"}
+	storageLocation3 := &pb.StorageLocation{Quality: 20, Price: 1100, Group: "group3"}
+	storageLocation5 := &pb.StorageLocation{Quality: 40, Price: 1000, Group: "group5"}
+	storageLocation6 := &pb.StorageLocation{Quality: 40, Price: 1000, Group: "group5"}
+
+	storageLocations := make([]*pb.StorageLocation, 0)
+	storageLocations = append(storageLocations, storageLocation1, storageLocation2, storageLocation3, storageLocation5, storageLocation6)
+
+	storageLocationsFiltered := service.GetCheapestStorageLocationsForQuality(&pb.StorageLocations{StorageLocations: storageLocations}, minQuality)
+
+	qualitySum := 0
+	for _, storageLocation := range storageLocationsFiltered {
+		qualitySum += int(storageLocation.Quality)
+	}
+
+	if len(storageLocationsFiltered) != 3 || qualitySum != 70 {
+		panic("TestGetCheapestStorageLocationsForQualit7 failed")
+	}
+}
+
 func TestGetStorageLocationsToCopyTo(t *testing.T) {
 
-	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Id: "sftp"}, {Type: "Amazon S3", Id: "Amazon S3"}, {Type: "Switch S3", Id: "Switch S3"}, {Type: "local", Id: "local"}}}
-	currentStorageLocations := []*pb.StorageLocation{{Type: "sftp", Id: "sftp"}}
+	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Group: "sftp"}, {Type: "Amazon S3", Group: "Amazon S3"}, {Type: "Switch S3", Group: "Switch S3"}, {Type: "local", Group: "local"}}}
+	currentStorageLocations := []*pb.StorageLocation{{Type: "sftp", Group: "sftp"}}
 
 	storageLocationsToCopyIn := service.GetStorageLocationsToCopyTo(storageLocationsNeeded, currentStorageLocations)
 	if len(storageLocationsToCopyIn) != 3 {
@@ -154,8 +202,8 @@ func TestGetStorageLocationsToCopyTo(t *testing.T) {
 
 func TestGetStorageLocationsToCopyTo2(t *testing.T) {
 
-	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Id: "sftp"}, {Type: "Amazon S3", Id: "Amazon S3"}, {Type: "Switch S3", Id: "Switch S3"}, {Type: "local", Id: "local"}}}
-	currentStorageLocations := []*pb.StorageLocation{{Type: "sftp", Id: "sftp"}, {Type: "Amazon S3", Id: "Amazon S3"}}
+	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Group: "sftp"}, {Type: "Amazon S3", Group: "Amazon S3"}, {Type: "Switch S3", Group: "Switch S3"}, {Type: "local", Group: "local"}}}
+	currentStorageLocations := []*pb.StorageLocation{{Type: "sftp", Group: "sftp"}, {Type: "Amazon S3", Group: "Amazon S3"}}
 
 	storageLocationsToCopyIn := service.GetStorageLocationsToCopyTo(storageLocationsNeeded, currentStorageLocations)
 	if len(storageLocationsToCopyIn) != 2 {
@@ -170,8 +218,8 @@ func TestGetStorageLocationsToCopyTo2(t *testing.T) {
 
 func TestGetStorageLocationsToCopyTo3(t *testing.T) {
 
-	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Id: "sftp"}}}
-	currentStorageLocations := []*pb.StorageLocation{{Type: "Amazon S3", Id: "Amazon S3"}, {Type: "Switch S3", Id: "Switch S3"}, {Type: "local", Id: "local"}}
+	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Group: "sftp"}}}
+	currentStorageLocations := []*pb.StorageLocation{{Type: "Amazon S3", Group: "Amazon S3"}, {Type: "Switch S3", Group: "Switch S3"}, {Type: "local", Group: "local"}}
 
 	storageLocationsToCopyIn := service.GetStorageLocationsToCopyTo(storageLocationsNeeded, currentStorageLocations)
 	if len(storageLocationsToCopyIn) != 1 {
@@ -186,8 +234,8 @@ func TestGetStorageLocationsToCopyTo3(t *testing.T) {
 
 func TestGetStorageLocationsToDeleteFrom(t *testing.T) {
 
-	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Id: "sftp"}, {Type: "Amazon S3", Id: "Amazon S3"}, {Type: "Switch S3", Id: "Switch S3"}, {Type: "local", Id: "local"}}}
-	currentStorageLocations := map[*pb.ObjectInstance]*pb.StorageLocation{{Id: "1"}: {Type: "sftp", Id: "sftp"}}
+	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Group: "sftp"}, {Type: "Amazon S3", Group: "Amazon S3"}, {Type: "Switch S3", Group: "Switch S3"}, {Type: "local", Group: "local"}}}
+	currentStorageLocations := map[*pb.ObjectInstance]*pb.StorageLocation{{Id: "1"}: {Type: "sftp", Group: "sftp"}}
 
 	storageLocationsToDeleteFrom := service.GetStorageLocationsToDeleteFrom(storageLocationsNeeded, currentStorageLocations)
 	if len(storageLocationsToDeleteFrom) != 0 {
@@ -197,8 +245,8 @@ func TestGetStorageLocationsToDeleteFrom(t *testing.T) {
 
 func TestGetStorageLocationsToDeleteFrom2(t *testing.T) {
 
-	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "Switch S3", Id: "Switch S3"}, {Type: "local", Id: "local"}}}
-	currentStorageLocations := map[*pb.ObjectInstance]*pb.StorageLocation{{Id: "1"}: {Type: "sftp", Id: "sftp"}, {Id: "2"}: {Type: "Amazon S3", Id: "Amazon S3"}}
+	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "Switch S3", Group: "Switch S3"}, {Type: "local", Group: "local"}}}
+	currentStorageLocations := map[*pb.ObjectInstance]*pb.StorageLocation{{Id: "1"}: {Type: "sftp", Group: "sftp"}, {Id: "2"}: {Type: "Amazon S3", Group: "Amazon S3"}}
 
 	storageLocationsToDeleteFrom := service.GetStorageLocationsToDeleteFrom(storageLocationsNeeded, currentStorageLocations)
 	if len(storageLocationsToDeleteFrom) != 2 {
@@ -213,8 +261,8 @@ func TestGetStorageLocationsToDeleteFrom2(t *testing.T) {
 
 func TestGetStorageLocationsToDeleteFrom3(t *testing.T) {
 
-	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Id: "sftp"}}}
-	currentStorageLocations := map[*pb.ObjectInstance]*pb.StorageLocation{{Id: "1"}: {Type: "Amazon S3", Id: "Amazon S3"}, {Id: "2"}: {Type: "Switch S3", Id: "Switch S3"}, {Id: "3"}: {Type: "local", Id: "local"}}
+	storageLocationsNeeded := &pb.StorageLocations{StorageLocations: []*pb.StorageLocation{{Type: "sftp", Group: "sftp"}}}
+	currentStorageLocations := map[*pb.ObjectInstance]*pb.StorageLocation{{Id: "1"}: {Type: "Amazon S3", Group: "Amazon S3"}, {Id: "2"}: {Type: "Switch S3", Group: "Switch S3"}, {Id: "3"}: {Type: "local", Group: "local"}}
 
 	storageLocationsToDeleteFrom := service.GetStorageLocationsToDeleteFrom(storageLocationsNeeded, currentStorageLocations)
 	if len(storageLocationsToDeleteFrom) != 3 {
@@ -226,11 +274,11 @@ func TestGetStorageLocationsToDeleteFrom3(t *testing.T) {
 		}
 		switch {
 		case oi.Id == "1":
-			if storageLocation.Id != "Amazon S3" {
+			if storageLocation.Group != "Amazon S3" {
 				panic("TestGetStorageLocationsToDeleteFrom3 has failed")
 			}
 		case oi.Id == "2":
-			if storageLocation.Id != "Switch S3" {
+			if storageLocation.Group != "Switch S3" {
 				panic("TestGetStorageLocationsToDeleteFrom3 has failed")
 			}
 		}

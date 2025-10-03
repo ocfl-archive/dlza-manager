@@ -249,6 +249,12 @@ message SizeAndId {
   Object Object = 3;
 }
 
+message SizeObjectLocation {
+  int64  Size = 1;
+  StorageLocation  Location = 2;
+  Object Object = 3;
+}
+
 message File {
   string Checksum = 1;
   repeated string  Name = 2;
